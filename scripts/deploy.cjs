@@ -4,7 +4,7 @@ const tokens = (n) => {
     return ethers.utils.parseUnits(n.toString(), 'ether');
 }
 
-async function main() {
+const main = async () => {
     const NAME = 'DragonAI';
     const SYMBOL = 'DRGN';
     const MAX_SUPPLY = '1000000';
