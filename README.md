@@ -42,3 +42,12 @@ Before running the project, ensure you have the following installed:
     ```
     npm run start
     ```
+
+## Visit deployed site on flee.xyz
+    https://puny-bear-whispering.on-fleek.app/
+
+    Network sepolia or local hardhat node supported
+
+## Contracts Deployed: 
+    Token Address = 0xA8b709d8bc3659b2C649f2Cf13C64C6Cb453912E
+    Crowdsale Address = 0xCC92cA7c15052E4A3f495ee85BD7f344E73019Db
