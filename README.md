@@ -34,7 +34,7 @@ Before running the project, ensure you have the following installed:
     ```npx hardhat node```
 
     Deploy contract on local node
-    ```npx hardhat run scripts/deploy.cjs --network localhost
+    ```npx hardhat run scripts/deploy.cjs --network localhost```
 
 4. **Run web app ICO**
 
