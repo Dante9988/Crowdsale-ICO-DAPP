@@ -20,6 +20,8 @@ describe('Crowdsale', () => {
     let deployer;
     /** @type {SignerWithAddress} */
     let user1;
+    /** @type {SignerWithAddress} */
+    let whitelisted;
     beforeEach(async () => {
         // Load contracts
         const Crowdsale = await ethers.getContractFactory('Crowdsale');
@@ -30,11 +32,14 @@ describe('Crowdsale', () => {
         accounts = await ethers.getSigners();
         deployer = accounts[0];
         user1 = accounts[1]
+        whitelisted = accounts[2];
         // Deploy crowdsale
         crowdsale = await Crowdsale.deploy(token.address, ether(1), tokens(1000000));
         // Send tokens to Crowdsale
         let txn = await token.connect(deployer).transfer(crowdsale.address, tokens(1000000));
         await txn.wait();
+        whitelistTxn = await crowdsale.connect(deployer).addToWhitelist(user1.address);
+        await whitelistTxn.wait();
     });
 
     describe('Deployment', () => {
@@ -98,7 +103,56 @@ describe('Crowdsale', () => {
                 await expect(crowdsale.connect(user1).buyTokens(tokens(2000000), { value: 20 })).to.be.reverted;
             });
         });
-    })
+    });
+
+    describe('Whitelist', () => {
+        let whitelistTxn;
+        describe('Success', () => {
+            beforeEach(async () => {
+                whitelistTxn = await crowdsale.connect(deployer).addToWhitelist(whitelisted.address);
+                await whitelistTxn.wait();
+            })
+            it('returns whitelisted user', async () => {
+                expect(await crowdsale.whitelisted(whitelisted.address)).to.be.true;
+            });
+            it('emits a buy event', async () => {
+                await expect(whitelistTxn).to.emit(crowdsale, 'Whitelist').withArgs(whitelisted.address);
+            });
+        });
+
+        describe('Failure', () => {
+            it('only owner allowed to whitelist', async () => {
+                await expect(crowdsale.connect(user1).addToWhitelist(deployer.address))
+                .to.be.revertedWith('Caller must be owner');
+            });
+        });
+    });
+
+    describe('Remove from whitelist', () => {
+        let removeWhitelistTxn;
+        describe('Success', () => {
+            beforeEach(async () => {
+                let whitelistTxn = await crowdsale.connect(deployer).addToWhitelist(whitelisted.address);
+                await whitelistTxn.wait();
+
+                removeWhitelistTxn = await crowdsale.connect(deployer).removeFromWhitelist(whitelisted.address);
+                await removeWhitelistTxn.wait();
+            })
+            it('returns whitelisted user', async () => {
+                expect(await crowdsale.whitelisted(whitelisted.address)).to.be.false;
+            });
+            it('emits a buy event', async () => {
+                await expect(removeWhitelistTxn).to.emit(crowdsale, 'RemoveWhitelist').withArgs(whitelisted.address);
+            });
+        });
+
+        describe('Failure', () => {
+            it('only owner allowed to whitelist', async () => {
+                await expect(crowdsale.connect(user1).removeFromWhitelist(deployer.address))
+                .to.be.revertedWith('Caller must be owner');
+            });
+        });
+    });
 
     describe('Sending ETH', () => {
         describe('Success', () => {
