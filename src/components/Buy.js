@@ -11,7 +11,7 @@ const Buy = ({ provider, price, crowdsale, setIsLoading }) => {
     const [isSaleLive, setIsSaleLive] = useState(false);
     const [warningMessage, setWarningMessage] = useState("");
 
-    const minAmount = 1000;  
+    const minAmount = 5;  
     const maxAmount = 100000;
 
     const checkSaleStatus = async () => {
