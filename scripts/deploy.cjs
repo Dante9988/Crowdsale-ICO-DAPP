@@ -13,7 +13,7 @@ const main = async () => {
     // Get Signers
     const signers = await ethers.getSigners();
     const deployer = signers[0];
-    const user1 = signers[0];
+    const user1 = signers[1];
     // Deploy Token
     const Token = await ethers.getContractFactory('Token');
     const token = await Token.deploy(NAME, SYMBOL, MAX_SUPPLY);
@@ -33,13 +33,16 @@ const main = async () => {
     await whitelistTxn.wait();
     console.log(`Whitelist Txn Hash: ${whitelistTxn.hash}\n`);
 
-    const setStartDateTxn = await crowdsale.connect(deployer).setStartDate(1727065141);
-    await setStartDateTxn.wait();
-    console.log(`Whitelist Txn Hash: ${setStartDateTxn.hash}\n`);
+    const startDateUnix = Math.floor(new Date("2024-09-21T12:00:00").getTime() / 1000);
+    const endDateUnix = Math.floor(new Date("2025-09-30T12:00:00").getTime() / 1000);
 
-    const setEndDateTxn = await crowdsale.connect(deployer).setEndDate(1737068121);
+    const setStartDateTxn = await crowdsale.connect(deployer).setStartDate(startDateUnix);
+    await setStartDateTxn.wait();
+    console.log(`StartDate Txn Hash: ${setStartDateTxn.hash}\n`);
+
+    const setEndDateTxn = await crowdsale.connect(deployer).setEndDate(endDateUnix);
     await setEndDateTxn.wait();
-    console.log(`Whitelist Txn Hash: ${setEndDateTxn.hash}\n`);
+    console.log(`EndDate Txn Hash: ${setEndDateTxn.hash}\n`);
 }
 
 main().catch((error) => {

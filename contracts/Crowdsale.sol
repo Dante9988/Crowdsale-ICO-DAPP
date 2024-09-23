@@ -12,8 +12,8 @@ contract Crowdsale {
     uint256 public tokensSold;
     uint256 public maxTokens;
     mapping (address => bool) public whitelisted;
-    uint public startDate;
-    uint public endDate;
+    uint256 public startDate;
+    uint256 public endDate;
 
     event Buy(uint256 amount, address buyer);
     event Finalize(uint256 tokensSold, uint256 ethRaised);
@@ -83,7 +83,7 @@ contract Crowdsale {
     }
 
     function setEndDate(uint32 _timestamp) public onlyOwner {
-        require(startDate < _timestamp);
+        require(startDate < _timestamp, "End date must be after start date");
         endDate = _timestamp;
         emit SetEndDate(_timestamp);
     }
