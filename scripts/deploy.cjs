@@ -13,7 +13,7 @@ const main = async () => {
     // Get Signers
     const signers = await ethers.getSigners();
     const deployer = signers[0];
-    const user1 = signers[1];
+    const user1 = signers[0];
     // Deploy Token
     const Token = await ethers.getContractFactory('Token');
     const token = await Token.deploy(NAME, SYMBOL, MAX_SUPPLY);

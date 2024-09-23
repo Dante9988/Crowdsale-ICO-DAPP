@@ -12,8 +12,8 @@ contract Crowdsale {
     uint256 public tokensSold;
     uint256 public maxTokens;
     mapping (address => bool) public whitelisted;
-    uint256 public startDate;
-    uint256 public endDate;
+    uint public startDate;
+    uint public endDate;
 
     event Buy(uint256 amount, address buyer);
     event Finalize(uint256 tokensSold, uint256 ethRaised);
