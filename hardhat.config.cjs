@@ -6,7 +6,12 @@ const API_KEY = process.env.ALCHEMY_API_KEY;
 module.exports = {
   solidity: "0.8.24",
   networks: {
-    localhost: {},
+    localhost: {
+      mining: {
+        auto: true,
+        interval: 5000 // Increase block time (5 seconds)
+      }
+    },
     sepolia: {
       url: `https://eth-sepolia.g.alchemy.com/v2/${API_KEY}`,
       chainId: 11155111,

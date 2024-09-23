@@ -6,13 +6,5 @@
         "crowdsale": {
             "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
         }
-    },
-    "11155111": {
-        "token": {
-            "address": "0xA8b709d8bc3659b2C649f2Cf13C64C6Cb453912E"
-        },
-        "crowdsale": {
-            "address": "0xCC92cA7c15052E4A3f495ee85BD7f344E73019Db"
-        }
     }
 }

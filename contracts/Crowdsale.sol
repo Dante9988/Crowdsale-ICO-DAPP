@@ -12,11 +12,15 @@ contract Crowdsale {
     uint256 public tokensSold;
     uint256 public maxTokens;
     mapping (address => bool) public whitelisted;
+    uint public startDate;
+    uint public endDate;
 
     event Buy(uint256 amount, address buyer);
     event Finalize(uint256 tokensSold, uint256 ethRaised);
     event Whitelist(address addressToWhitelist);
     event RemoveWhitelist(address addressToRemove);
+    event SetStartDate(uint32 timestamp);
+    event SetEndDate(uint32 timestamp);
 
     constructor(Token _token, uint256 _price, uint256 _maxTokens) {
         token = _token;
@@ -31,6 +35,8 @@ contract Crowdsale {
     }
 
     function buyTokens(uint256 _amount) public payable {
+        require(startDate <= block.timestamp, 'Sale is not Live.');
+        require(block.timestamp <= endDate, 'Sale ended.');
         require(whitelisted[msg.sender] == true, 'Not Whitelisted.');
         require(msg.value == (_amount / 1e18) * price, 'This one??');
         require(token.balanceOf(address(this)) >= _amount, 'balance in Contract is not enough.');
@@ -61,13 +67,24 @@ contract Crowdsale {
         emit Finalize(tokensSold, value);
     } 
 
-    function addToWhitelist(address addressToWhitelist) public onlyOwner {
-        whitelisted[addressToWhitelist] = true;
-        emit Whitelist(addressToWhitelist);
+    function addToWhitelist(address _addressToWhitelist) public onlyOwner {
+        whitelisted[_addressToWhitelist] = true;
+        emit Whitelist(_addressToWhitelist);
     }
 
-    function removeFromWhitelist(address addressToRemove) public onlyOwner {
-        whitelisted[addressToRemove] = false;
-        emit RemoveWhitelist(addressToRemove);
+    function removeFromWhitelist(address _addressToRemove) public onlyOwner {
+        whitelisted[_addressToRemove] = false;
+        emit RemoveWhitelist(_addressToRemove);
+    }
+
+    function setStartDate(uint32 _timestamp) public onlyOwner {
+        startDate = _timestamp;
+        emit SetStartDate(_timestamp);
+    }
+
+    function setEndDate(uint32 _timestamp) public onlyOwner {
+        require(startDate < _timestamp);
+        endDate = _timestamp;
+        emit SetEndDate(_timestamp);
     }
 }

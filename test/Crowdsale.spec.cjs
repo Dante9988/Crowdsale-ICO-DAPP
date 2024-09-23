@@ -40,6 +40,10 @@ describe('Crowdsale', () => {
         await txn.wait();
         whitelistTxn = await crowdsale.connect(deployer).addToWhitelist(user1.address);
         await whitelistTxn.wait();
+        let setStartDate = await crowdsale.connect(deployer).setStartDate(1727065141);
+        await setStartDate.wait();
+        let setEndDate = await crowdsale.connect(deployer).setEndDate(1827065141);
+        await setEndDate.wait();
     });
 
     describe('Deployment', () => {
@@ -150,6 +154,50 @@ describe('Crowdsale', () => {
             it('only owner allowed to whitelist', async () => {
                 await expect(crowdsale.connect(user1).removeFromWhitelist(deployer.address))
                 .to.be.revertedWith('Caller must be owner');
+            });
+        });
+    });
+
+    describe('Start Date', () => {
+        let amount = tokens(10);
+        let timestamp = 2827065141;
+        let setStartDateTxn;
+        beforeEach(async () => {
+            setStartDateTxn = await crowdsale.connect(deployer).setStartDate(timestamp); // 1827065141 - Future timestamp, very long time
+            await setStartDateTxn.wait();
+        });
+
+        describe('Success', () => {
+            it('emits set start date event', async () => {
+                await expect(setStartDateTxn).to.emit(crowdsale, 'SetStartDate').withArgs(timestamp);
+            });
+        })
+
+        describe('Failure', () => {
+            it('rejects closed sale', async () => {
+                await expect(crowdsale.connect(user1).buyTokens(amount, {value: ether(10)})).to.be.revertedWith('Sale is not Live.');
+            });
+        });
+    });
+
+    describe('End Date', () => {
+        let amount = tokens(10);
+        let timestamp = 1727065142;
+        let setEndDateTxn;
+        beforeEach(async () => {
+            setEndDateTxn = await crowdsale.connect(deployer).setEndDate(timestamp); // 1727065146 - Timestamp already in the past but greater than setStartDate value
+            await setEndDateTxn.wait();
+        });
+
+        describe('Success', () => {
+            it('emits set end date event', async () => {
+                await expect(setEndDateTxn).to.emit(crowdsale, 'SetEndDate').withArgs(timestamp);
+            });
+        })
+
+        describe('Failure', () => {
+            it('rejects ended sale', async () => {
+                await expect(crowdsale.connect(user1).buyTokens(amount, {value: ether(10)})).to.be.revertedWith('Sale ended.');
             });
         });
     });

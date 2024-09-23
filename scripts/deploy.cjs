@@ -9,6 +9,11 @@ const main = async () => {
     const SYMBOL = 'DRGN';
     const MAX_SUPPLY = '1000000';
     const PRICE = tokens(0.025);
+
+    // Get Signers
+    const signers = await ethers.getSigners();
+    const deployer = signers[0];
+    const user1 = signers[0];
     // Deploy Token
     const Token = await ethers.getContractFactory('Token');
     const token = await Token.deploy(NAME, SYMBOL, MAX_SUPPLY);
@@ -23,6 +28,18 @@ const main = async () => {
     const txn = await token.transfer(crowdsale.address, tokens(MAX_SUPPLY));
     await txn.wait();
     console.log(`Tokens sent to Crowdsale contract at hash: ${txn.hash}\n`)
+
+    const whitelistTxn = await crowdsale.connect(deployer).addToWhitelist(user1.address);
+    await whitelistTxn.wait();
+    console.log(`Whitelist Txn Hash: ${whitelistTxn.hash}\n`);
+
+    const setStartDateTxn = await crowdsale.connect(deployer).setStartDate(1727065141);
+    await setStartDateTxn.wait();
+    console.log(`Whitelist Txn Hash: ${setStartDateTxn.hash}\n`);
+
+    const setEndDateTxn = await crowdsale.connect(deployer).setEndDate(1737068121);
+    await setEndDateTxn.wait();
+    console.log(`Whitelist Txn Hash: ${setEndDateTxn.hash}\n`);
 }
 
 main().catch((error) => {

@@ -6,6 +6,7 @@ const Progress = ({ maxTokens, tokensSold }) => {
     return (
         <div className="my-3" style={{ padding: '10px', backgroundColor: '#f0f0f0', borderRadius: '5px', width: '100%' }}>
             <ProgressBar 
+                striped
                 now={progressPercentage} 
                 label={`${Math.round(progressPercentage)}%`} 
                 style={{ height: '20px', backgroundColor: '#ccc' }} 
