@@ -12,17 +12,23 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    env:
-      PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-      ALCHEMY_API_KEY: ${{ secrets.ALCHEMY_API_KEY }}
-      ETHERSCAN_API_KEY: ${{ secrets.ETHERSCAN_API_KEY }}
     services:
       hardhat:
         image: cryptobuilder/hardhat-node
         options: --name hardhat --hostname hardhat
+        env:
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          ALCHEMY_API_KEY: ${{ secrets.ALCHEMY_API_KEY }}
+          ETHERSCAN_API_KEY: ${{ secrets.ETHERSCAN_API_KEY }}
         ports:
           - 8545:8545
     steps:
+    
+    env:
+      PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+      ALCHEMY_API_KEY: ${{ secrets.ALCHEMY_API_KEY }}
+      ETHERSCAN_API_KEY: ${{ secrets.ETHERSCAN_API_KEY }}
+
     - name: Checkout current repository
       uses: actions/checkout@v3
 
