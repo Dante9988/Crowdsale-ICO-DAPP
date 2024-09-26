@@ -41,7 +41,7 @@ jobs:
       run: yarn install
 
     - name: Execute Crowdsale Tests
-      run: npx hardhat test test/Crowdsale.spec.js --network localhost
+      run: npx hardhat test test/Crowdsale.spec.cjs --network localhost
       env:
         PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
         ALCHEMY_API_KEY: ${{ secrets.ALCHEMY_API_KEY }}
