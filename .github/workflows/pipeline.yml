@@ -28,9 +28,8 @@ jobs:
 
     - name: Wait for Hardhat to be ready
       run: |
-        sudo apt-get update; sudo apt-get install curl -y
-        curl -s http://localhost:8545/
-          
+        sudo curl -s http://localhost:8545/
+
     - name: Install dependencies
       run: yarn install
 
