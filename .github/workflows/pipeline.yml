@@ -12,14 +12,14 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+      ALCHEMY_API_KEY: ${{ secrets.ALCHEMY_API_KEY }}
+      ETHERSCAN_API_KEY: ${{ secrets.ETHERSCAN_API_KEY }}
     services:
       hardhat:
         image: cryptobuilder/hardhat-node
         options: --name hardhat --hostname hardhat
-        env:
-          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-          ALCHEMY_API_KEY: ${{ secrets.ALCHEMY_API_KEY }}
-          ETHERSCAN_API_KEY: ${{ secrets.ETHERSCAN_API_KEY }}
         ports:
           - 8545:8545
     steps:
@@ -39,8 +39,11 @@ jobs:
     - name: Install dependencies
       run: yarn install
 
-    - name: Execute Tests
-      run: npx hardhat test test/test.js --network localhost  
+    - name: Execute Crowdsale Tests
+      run: npx hardhat test test/Crowdsale.spec.js --network localhost
+      
+    - name: Execute Token Tests
+      run: npx hardhat test test/Token.spec.js --network localhost  
 
     - name: Publish Test Results
       uses: actions/upload-artifact@v3
