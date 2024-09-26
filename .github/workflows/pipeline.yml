@@ -28,7 +28,14 @@ jobs:
 
     - name: Wait for Hardhat to be ready
       run: |
-        sudo curl -s http://localhost:8545/
+        for i in {1..30}; do
+          if curl -s http://localhost:8545 > /dev/null; then
+            echo "Hardhat node is ready"
+            break
+          fi
+          echo "Waiting for Hardhat node..."
+          sleep 5
+        done 
 
     - name: Install dependencies
       run: yarn install
