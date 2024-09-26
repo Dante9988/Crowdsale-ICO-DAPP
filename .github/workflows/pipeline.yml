@@ -1,0 +1,56 @@
+name: Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      hardhat:
+        image: cryptobuilder/hardhat-node
+        options: --name hardhat --hostname hardhat
+        env:
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          ALCHEMY_API_KEY: ${{ secrets.ALCHEMY_API_KEY }}
+          ETHERSCAN_API_KEY: ${{ secrets.ETHERSCAN_API_KEY }}
+        ports:
+          - 8545:8545
+    steps:
+    - name: Checkout current repository
+      uses: actions/checkout@v3
+
+    - name: Wait for Hardhat to be ready
+      run: |
+        for i in {1..30}; do
+          if curl -s http://localhost:8545 > /dev/null; then
+            echo "Hardhat node is ready"
+            break
+          fi
+          echo "Waiting for Hardhat node..."
+          sleep 5
+        done  
+    - name: Install dependencies
+      run: yarn install
+
+    - name: Execute Tests
+      run: npx hardhat test test/test.js --network localhost  
+
+    - name: Publish Test Results
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results
+        path: ./test-results/
+
+    - name: Deploy to GitHub Pages
+      if: success()
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./test-results

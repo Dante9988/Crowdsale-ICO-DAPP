@@ -7,10 +7,10 @@ module.exports = {
   solidity: "0.8.24",
   networks: {
     localhost: {
-      mining: {
-        auto: true,
-        interval: 5000 // Increase block time (5 seconds)
-      }
+    },
+    hardhat: {
+      allowUnlimitedContractSize: true,
+      hostname: "0.0.0.0"
     },
     sepolia: {
       url: `https://eth-sepolia.g.alchemy.com/v2/${API_KEY}`,
