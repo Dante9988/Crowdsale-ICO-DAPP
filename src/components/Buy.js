@@ -1,6 +1,7 @@
 import { ethers } from 'ethers';
 import { useState, useEffect } from 'react';
-import { Form, Button, Row, Col, Spinner, Alert } from 'react-bootstrap';
+import { Form, Button, Row, Col, Spinner, Alert, InputGroup } from 'react-bootstrap';
+import { FaEthereum } from 'react-icons/fa';
 
 const Buy = ({ provider, price, crowdsale, setIsLoading }) => {
 
@@ -11,7 +12,7 @@ const Buy = ({ provider, price, crowdsale, setIsLoading }) => {
     const [isSaleLive, setIsSaleLive] = useState(false);
     const [warningMessage, setWarningMessage] = useState("");
 
-    const minAmount = 5;  
+    const minAmount = 5;
     const maxAmount = 100000;
 
     const checkSaleStatus = async () => {
@@ -47,7 +48,7 @@ const Buy = ({ provider, price, crowdsale, setIsLoading }) => {
 
         try {
             const signer = await provider.getSigner();
-            
+
             if (parseFloat(amount) < minAmount) {
                 window.alert(`Minimum amount to buy is ${minAmount} tokens.`);
                 setIsWaiting(false);
@@ -64,8 +65,8 @@ const Buy = ({ provider, price, crowdsale, setIsLoading }) => {
 
             const startDate = parseInt(await start.toString());
             const endDate = parseInt(await end.toString());
-            const currentTime = Math.floor(Date.now() / 1000); 
-            
+            const currentTime = Math.floor(Date.now() / 1000);
+
             // Check if sale is active
             if (currentTime < startDate) {
                 window.alert('Sale has not started yet.');
@@ -76,13 +77,13 @@ const Buy = ({ provider, price, crowdsale, setIsLoading }) => {
                 setIsWaiting(false);
                 return;
             }
-    
+
             // Proceed with the token purchase if sale is live
             const value = ethers.utils.parseUnits((amount * price).toString(), 'ether');
             const formattedAmount = ethers.utils.parseUnits(amount.toString(), 'ether');
             const txn = await crowdsale.connect(signer).buyTokens(formattedAmount, { value: value });
             await txn.wait();
-    
+
         } catch (error) {
             window.alert('User rejected or transaction reverted');
             console.error('Transaction error:', error);
@@ -98,12 +99,17 @@ const Buy = ({ provider, price, crowdsale, setIsLoading }) => {
         <Form onSubmit={buyHandler} style={{ maxWidth: '800px', margin: '50px auto' }}>
             <Form.Group as={Row}>
                 <Col>
-                    <Form.Control 
-                    type="number" 
-                    placeholder="Enter amount" 
-                    onChange={handleAmountChange} 
-                    isInvalid={warningMessage !== ""}
-                    />
+                    {/* Input Group with React Icon */}
+                    <InputGroup className={warningMessage !== "" ? "is-invalid" : ""}>
+                        <InputGroup.Text>
+                            <FaEthereum /> {/* Ethereum Icon */}
+                        </InputGroup.Text>
+                        <Form.Control
+                            type="number"
+                            placeholder="Enter amount"
+                            onChange={handleAmountChange}
+                        />
+                    </InputGroup>
                     {warningMessage && (
                         <Alert variant="warning" style={{ marginTop: '10px' }}>
                             {warningMessage}
@@ -112,12 +118,12 @@ const Buy = ({ provider, price, crowdsale, setIsLoading }) => {
                 </Col>
                 <Col className='text-center'>
                     {isWaiting ? (
-                        <Spinner animation='border'/>
+                        <Spinner animation='border' />
                     ) : (
-                        <Button 
-                            variant={isSaleLive ? "primary" : "danger"} 
-                            type="submit" 
-                            style={{ width: '100%' }} 
+                        <Button
+                            variant={isSaleLive ? "primary" : "danger"}
+                            type="submit"
+                            style={{ width: '100%' }}
                             disabled={!isSaleLive}
                         >
                             {isSaleLive ? 'Buy Tokens' : 'Sale Not Live'}

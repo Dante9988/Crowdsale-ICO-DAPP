@@ -12,6 +12,9 @@ import Loading from "./Loading";
 import Progress from "./Progress";
 import Buy from "./Buy";
 
+// Styles
+import '../styles/App.css'
+
 const formatUnits = (n) => {
     return ethers.utils.formatUnits(n, 18);
 }
@@ -75,7 +78,9 @@ function App() {
                 <Loading />
             ) : (
                 <>
-                <p className="text-center"><strong>Current Price:</strong> {price} ETH</p>
+                <div className="current-price text-center">
+                    <strong>Current Price:</strong> {price} ETH
+                </div>
                 <Buy provider={provider} price={price} crowdsale={crowdsale} setIsLoading={setIsLoading} />
                 <Progress maxTokens={maxTokens} tokensSold={tokensSold}/>
                 </>

@@ -1,0 +1,152 @@
+/* Background */
+body {
+    background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+    color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+}
+
+/* Main container */
+.container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 40px;
+    background-color: #1c1e21;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Title Styling for DRGN ICO Crowdsale */
+.navbar-brand {
+    font-size: 2rem;
+    color: #00ffcc; /* Change to cool blue color for tech vibe */
+    font-weight: bold;
+    text-shadow: 1px 1px 5px rgba(0, 255, 204, 0.5); /* Slight glow */
+    margin-left: 15px;
+}
+
+/* Main Title for DragonAI Token */
+h1 {
+    font-size: 2.5rem;
+    text-align: center;
+    color: #41d8dd; /* Warm yellow for emphasis */
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
+}
+
+/* Current Price Styling */
+h2 {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #00ccff; /* Cool blue to match overall design */
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+/* Cards styling */
+.card {
+    padding: 20px;
+    margin-bottom: 30px;
+    background-color: #292d31;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Info Text (Connected and Tokens Owned) */
+.info-container {
+    padding: 20px;
+    background-color: #222;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin-top: 30px;
+}
+
+.info-container {
+    padding: 20px;
+    background-color: #222; /* Darker background for contrast */
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Soft shadow for depth */
+    margin-top: 30px;
+}
+
+/* Styling for Connected address */
+.connected-text {
+    font-size: 1.1rem;
+    color: #ced8d6; /* Cool blue to match the overall theme */
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Styling for Tokens Owned */
+.tokens-owned {
+    font-size: 1.1rem;
+    color: #ffffff; /* White text for better readability */
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Connected text */
+.info-container .connected-text {
+    color: #00ffcc; /* Matches the title styling */
+    font-weight: bold;
+}
+
+/* Button styling */
+.btn-primary {
+    background-color: #00aaff;
+    border: none;
+    color: white;
+    font-size: 18px;
+    padding: 12px 30px;
+    border-radius: 30px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0088cc;
+    box-shadow: 0px 0px 20px rgba(0, 136, 204, 0.5);
+}
+
+/* Progress bar styling */
+.progress-container {
+    background-color: #333333;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.progress-bar {
+    height: 30px;
+    background: linear-gradient(to right, #00b09b, #96c93d);
+    border-radius: 20px;
+    transition: width 0.4s ease;
+}
+
+.progress-text {
+    font-size: 1.2rem;
+    color: #ffffff;
+    margin-top: 10px;
+}
+
+.current-price {
+    font-size: 1.3rem; /* Slightly increase the size */
+    color: #00ccff;    /* Cool blue color to match the tech theme */
+    font-weight: bold; /* Make it stand out */
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.current-price strong {
+    color: #3bd5db;    /* Emphasize "Current Price" text with yellow */
+}

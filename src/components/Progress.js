@@ -4,15 +4,14 @@ const Progress = ({ maxTokens, tokensSold }) => {
     const progressPercentage = (tokensSold / maxTokens) * 100;
 
     return (
-        <div className="my-3" style={{ padding: '10px', backgroundColor: '#f0f0f0', borderRadius: '5px', width: '100%' }}>
+        <div className="progress-container">
             <ProgressBar 
-                striped
                 now={progressPercentage} 
-                label={`${Math.round(progressPercentage)}%`} 
-                style={{ height: '20px', backgroundColor: '#ccc' }} 
-                variant="success"
+                className="progress-bar"
             />
-            <p className="text-center my-3">{tokensSold} / {maxTokens} Tokens Sold</p>
+            <p className="progress-text">
+                {tokensSold} / {maxTokens} Tokens Sold
+            </p>
         </div>
     );
 }
